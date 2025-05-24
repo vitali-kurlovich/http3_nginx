@@ -31,4 +31,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run build script
-        run: build_nginx.sh --with-debug 
+        run: |
+            chmod u+x build_nginx.sh
+            build_nginx.sh --with-debug 
