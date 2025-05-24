@@ -33,4 +33,4 @@ jobs:
       - name: Run build script
         run: |
             chmod u+x build_nginx.sh
-            build_nginx.sh --with-debug 
+            ./build_nginx.sh --with-debug 
