@@ -26,9 +26,9 @@ fi
 
 local _SOURCE_PATH=${_LIB_PATH}/${_NAME}
 
-curl -OL ${_SOURCE_URL}
-mkdir -p $_LIB_PATH
-tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} 
+curl -OL ${_SOURCE_URL} && \
+mkdir -p $_LIB_PATH && \
+tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} && \
 rm ${_TAR_FILENAME}
 
 ZLIB_SOURCE_PATH=$_SOURCE_PATH
@@ -48,9 +48,9 @@ fi
 
 local _SOURCE_PATH=${_LIB_PATH}/${_NAME}
 
-curl -OL ${_SOURCE_URL}
-mkdir -p $_LIB_PATH
-tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} 
+curl -OL ${_SOURCE_URL} && \
+mkdir -p $_LIB_PATH && \
+tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} && \
 rm ${_TAR_FILENAME}
 
 PCRE_SOURCE_PATH=${_SOURCE_PATH}
@@ -70,9 +70,9 @@ fi
 
 local _SOURCE_PATH=${_LIB_PATH}/${_NAME}
 
-curl -OL ${_SOURCE_URL}
-mkdir -p $_LIB_PATH
-tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} 
+curl -OL ${_SOURCE_URL} && \
+mkdir -p $_LIB_PATH && \
+tar -xf ${_TAR_FILENAME} -C ${_LIB_PATH} && \
 rm ${_TAR_FILENAME}
 
 OPENSSL_SOURCE_PATH=$_SOURCE_PATH
@@ -90,18 +90,15 @@ if [ -n "$BUILD_PATH" ]; then
 	_BUILD_PATH=$BUILD_PATH 
 fi
 
-curl -OL ${_SOURCE_URL}
-mkdir -p $_BUILD_PATH
-tar -xf ${_TAR_FILENAME} -C ${_BUILD_PATH} 
+curl -OL ${_SOURCE_URL} && \
+mkdir -p $_BUILD_PATH  && \
+tar -xf ${_TAR_FILENAME} -C ${_BUILD_PATH}  && \
 rm ${_TAR_FILENAME}
 
 NGINX_SOURCE_FOLDER=${_BUILD_PATH}/${_NAME}
 }
 
-loadPCRE 
-loadZLIB 
-loadOpenSSL
-loadNGINX 
+loadNGINX && loadPCRE && loadZLIB && loadOpenSSL
 
 cd ${NGINX_SOURCE_FOLDER}
 
