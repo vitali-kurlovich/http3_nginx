@@ -1,27 +1,30 @@
 # Dockerfile for building NGINX with HTTP/3 support
-
 ARG nginx_path=/opt/nginx
-
 ARG tag=latest
 ARG os=alpine
 
 FROM ${os}:${tag} AS builder
 
 # Install dependencies based on the OS type
-
 ARG os
 ARG tag
-
-# Install dependencies for Ubuntu Linux
-RUN [ "${os}" = "ubuntu" ] && apt-get update || echo "Skipping..." 
-RUN [ "${os}" = "ubuntu" ] && apt-get install -y build-essential || echo "Skipping..." 
 
 # Install dependencies for Alpine Linux
 RUN [ "${os}" = "alpine" ] && apk upgrade --no-cache || echo "Skipping..." 
 RUN [ "${os}" = "alpine" ] && apk add build-base perl linux-headers || echo "Skipping..." 
 
-# Arguments for versions of NGINX and its dependencies
+# Install dependencies for Ubuntu Linux
+RUN [ "${os}" = "ubuntu" ] && apt-get update || echo "Skipping..." 
+RUN [ "${os}" = "ubuntu" ] && apt-get install -y build-essential || echo "Skipping..." 
 
+# Install dependencies for Debian Linux
+RUN [ "${os}" = "debian" ] && apt-get update || echo "Skipping..." 
+RUN [ "${os}" = "debian" ] && apt-get install -y build-essential || echo "Skipping..." 
+
+# Install dependencies for Amazonlinux Linux
+RUN [ "${os}" = "amazonlinux" ] && yum -y install tar gzip perl gcc || echo "Skipping..."
+
+# Versions of NGINX and its dependencies
 # NGINX
 ARG NGINX_VERSION=1.28.0
 
@@ -49,7 +52,6 @@ WORKDIR /tmp/nginx-${NGINX_VERSION}
 
 # Build NGINX
 # Configure NGINX with the necessary modules and libraries
-
 ARG nginx_path
 
  RUN ./configure \
@@ -72,6 +74,7 @@ FROM ${os}:${tag}
 ARG nginx_path
 
 COPY --from=builder ${nginx_path} ${nginx_path}
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
@@ -82,4 +85,3 @@ EXPOSE 80 443
 
 # start NGINX
 ENTRYPOINT ["/entrypoint.sh"]
-

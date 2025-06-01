@@ -1,4 +1,4 @@
 #!/bin/sh
 
-export PATH="$PATH:${NGINX_PATH}/sbin/"
+alias nginx=${NGINX_PATH}/sbin/nginx
 nginx -g "daemon off;"
