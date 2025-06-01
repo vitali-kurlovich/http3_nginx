@@ -44,9 +44,9 @@ ADD https://github.com/openssl/openssl/releases/download/openssl-${OPENSSL_VERSI
 # Extract the downloaded archives
 # Remove the downloaded archives to save space
 RUN tar -xzf openssl-${OPENSSL_VERSION}.tar.gz && rm openssl-${OPENSSL_VERSION}.tar.gz \
- && tar -xzf pcre2-${PCRE_VERSION}.tar.gz && rm pcre2-${PCRE_VERSION}.tar.gz \
- && tar -xzf zlib-${ZLIB_VERSION}.tar.gz && rm zlib-${ZLIB_VERSION}.tar.gz \
- && tar -xzf nginx-${NGINX_VERSION}.tar.gz && rm nginx-${NGINX_VERSION}.tar.gz
+    && tar -xzf pcre2-${PCRE_VERSION}.tar.gz && rm pcre2-${PCRE_VERSION}.tar.gz \
+    && tar -xzf zlib-${ZLIB_VERSION}.tar.gz && rm zlib-${ZLIB_VERSION}.tar.gz \
+    && tar -xzf nginx-${NGINX_VERSION}.tar.gz && rm nginx-${NGINX_VERSION}.tar.gz
 
 WORKDIR /tmp/nginx-${NGINX_VERSION}
 
@@ -54,15 +54,15 @@ WORKDIR /tmp/nginx-${NGINX_VERSION}
 # Configure NGINX with the necessary modules and libraries
 ARG nginx_path
 
- RUN ./configure \
- --prefix=${nginx_path} \
- --with-pcre-jit \
- --with-http_v3_module \
- --with-openssl=../openssl-${OPENSSL_VERSION} \
- --with-pcre=../pcre2-${PCRE_VERSION} \
- --with-zlib=../zlib-${ZLIB_VERSION} \
- && make && make install \
- && rm -rf /tmp/*
+RUN ./configure \
+    --prefix=${nginx_path} \
+    --with-pcre-jit \
+    --with-http_v3_module \
+    --with-openssl=../openssl-${OPENSSL_VERSION} \
+    --with-pcre=../pcre2-${PCRE_VERSION} \
+    --with-zlib=../zlib-${ZLIB_VERSION} \
+    && make && make install \
+    && rm -rf /tmp/*
 
 # --------------------------------------
 # Final stage to create the NGINX image
