@@ -54,10 +54,14 @@ WORKDIR /tmp/nginx-${NGINX_VERSION}
 # Configure NGINX with the necessary modules and libraries
 ARG nginx_path
 
+# --with-http_stub_status_module 
+
 RUN ./configure \
+    --with-debug \
     --prefix=${nginx_path} \
     --with-pcre-jit \
-    --with-http_v3_module \
+    --with-http_ssl_module \
+    --with-http_v2_module \
     --with-openssl=../openssl-${OPENSSL_VERSION} \
     --with-pcre=../pcre2-${PCRE_VERSION} \
     --with-zlib=../zlib-${ZLIB_VERSION} \
@@ -74,6 +78,8 @@ FROM ${os}:${tag}
 ARG nginx_path
 
 COPY --from=builder ${nginx_path} ${nginx_path}
+
+COPY ./nginx ${nginx_path}
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
